@@ -5,7 +5,7 @@ description = ""
 authors = ["MarinaIlina893 <marinailina893@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
