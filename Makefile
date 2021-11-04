@@ -1,24 +1,24 @@
 install:
-    poetry install
+	poetry install
 
 package-install:
-    pip install --user dist/*.whl
+	pip install --user dist/*.whl
 
 test:
-    poetry run pytest
+	poetry run pytest
 
 test-coverage:
-    poetry run pytest --cov=gendiff --cov-report xml
+	poetry run pytest --cov=gendiff --cov-report xml
 
 lint:
-    poetry run flake8 gendiff
+	poetry run flake8 gendiff
 
 selfcheck:
-    poetry check
+	poetry check
 
 check: selfcheck test lint
 
 build: check
-    poetry build
+	poetry build
 
 .PHONY: install test lint selfcheck check build
