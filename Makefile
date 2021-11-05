@@ -8,10 +8,10 @@ test:
 	poetry run pytest
 
 test-coverage:
-	poetry run pytest --cov=gendiff --cov-report xml
+	poetry run pytest --cov=page_loader --cov-report xml
 
 lint:
-	poetry run flake8 gendiff
+	poetry run flake8 page_loader
 
 selfcheck:
 	poetry check
