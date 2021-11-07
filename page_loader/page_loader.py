@@ -4,6 +4,15 @@ from urllib.parse import urlparse
 from os.path import join, splitext, split
 import re
 from bs4 import BeautifulSoup
+import logging
+
+LOG_FORMAT = '%(levelname)s %(asctime)s - %(message)s'
+logging.basicConfig(filename='/Users/useradmin/PycharmProjects/'
+                             'python-project-lvl3/log.log',
+                    level=logging.DEBUG,
+                    format=LOG_FORMAT)
+logger = logging.getLogger()
+logger.debug('Test logger')
 
 
 def download(url, directory):
@@ -88,22 +97,3 @@ def update_resource_links(content, directory, page_url):
                 extension = '.html'
             link['href'] = join(directory, name) + extension
     return soup.prettify()
-
-
-def download_links(content, directory, page_url):
-    soup = BeautifulSoup(content, 'html.parser')
-    links = soup.findAll('link')
-    for link in links:
-        u = urlparse(page_url)
-        if link.get('src') is not None:
-            href = urlparse(link['href'])
-            if href.netloc == u.netloc:
-                url = link['href']
-                name = re.sub(r'[^A-Za-z0-9]',
-                              '-',
-                              u.netloc + splitext(link['href'])[0])
-                extension = splitext(url)[1]
-                filepath = join(directory, name) + extension
-                with open(filepath, 'w') as file:
-                    link_href = u.scheme + '://' + u.netloc + url
-                    file.write(requests.get(link_href).content)
