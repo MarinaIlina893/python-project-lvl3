@@ -51,23 +51,29 @@ document to specified local folder and updates links to them"""
     create_dir(resource_directory)
     bar = Bar('Processing', max=20)
     for resource in (soup.findAll('img') + soup.findAll('script')):
-        resource_url = resource['src']
+        src = resource['src']
         resource_host = urlparse(resource['src']).netloc
         page_host = urlparse(page_url).netloc
-        if resource_url:
+        if src:
             if resource_host == page_host or resource_host == '':
-                name = name_file(resource_url, page_url)
-                extension = splitext(resource_url)[1]
-                filepath = join(resource_directory, name) + extension
-                resource_absolute_url = urlparse(page_url).scheme + '://' \
-                    + urlparse(page_url).netloc + resource_url
-                if resource.name == ['img']:
-                    download_image(resource_absolute_url, filepath)
-                if resource.name == ['script']:
-                    download_script(resource_absolute_url, filepath)
+                name = name_file(src, page_url)
+                filepath = join(resource_directory, name)
+                resource_url = get_resource_url(src, page_url)
+                if resource.name == 'img':
+                    download_image(resource_url, filepath)
+                if resource.name == 'script':
+                    download_script(resource_url, filepath)
                 resource['src'] = join(split(resource_directory)[1], name)
         bar.next()
     bar.finish()
+
+
+def get_resource_url(src, page_url):
+    if urlparse(src).netloc:
+        return src
+    else:
+        return urlparse(page_url).scheme + '://' \
+                                + urlparse(page_url).netloc + src
 
 
 def create_dir(resource_directory):
@@ -102,7 +108,6 @@ def download_image(image_url, filepath):
     except requests.exceptions.RequestException as error:
         logger.error('Request went wrong')
         raise error
-    os.mknod(filepath)
     with open(filepath, 'wb') as file:
         file.write(image.content)
 
@@ -115,7 +120,6 @@ def download_script(script_url, filepath):
     except requests.exceptions.RequestException as error:
         logger.error('Request went wrong')
         raise error
-    os.mknod(filepath)
     with open(filepath, 'w') as file:
         file.write(script.text)
 

@@ -48,3 +48,9 @@ def test_download_404(mocker404):
         with TemporaryDirectory() as tmpdir:
             assert raises(requests.exceptions.HTTPError, download, 'http://ru.hexlet.io/courses', tmpdir)
 
+
+def test_download_resources(mocker):
+    with mocker:
+        with TemporaryDirectory() as tmpdir:
+            download('http://ru.hexlet.io/courses', tmpdir)
+            assert len(os.listdir(os.path.join(tmpdir, 'ru-hexlet-io-courses_files'))) == 2
