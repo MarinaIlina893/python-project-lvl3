@@ -1,3 +1,5 @@
+import sys
+
 import requests
 import os
 from urllib.parse import urlparse
@@ -25,14 +27,19 @@ def download(url, directory):
     # define page filepath
     filepath = join(directory, filename)
     # get page
-    content = requests.get(url).text
+    try:
+        page = requests.get(url)
+        page.raise_for_status()
+    except requests.exceptions.RequestException as error:
+        logger.error('Request went wrong')
+        raise error
     # get page files
-    soup = BeautifulSoup(content, 'html.parser')
+    soup = BeautifulSoup(page.text, 'html.parser')
     download_resources(soup, resource_directory, url)
     update_links(soup,
                  split(resource_directory)[1],
                  url)
-    # update links to resources in page
+    # update links in page
     with open(filepath, 'w') as file:
         file.write(soup.prettify())
     return filepath
@@ -40,19 +47,23 @@ def download(url, directory):
 
 def download_resources(soup, resource_directory, page_url):
     """Downloads images and scripts of html
-document to specified local folder"""
-    os.mkdir(resource_directory)
+document to specified local folder and updates links to them"""
+    try:
+        os.mkdir(resource_directory)
+    except OSError as error:
+        logger.error('OS Error')
+        raise error
     for resource in (soup.findAll('img') + soup.findAll('script')):
         resource_url = resource['src']
         resource_host = urlparse(resource['src']).netloc
         page_host = urlparse(page_url).netloc
-        if resource.get('src'):
+        if resource_url:
             if resource_host == page_host or resource_host == '':
                 name = name_file(resource_url, page_url)
                 extension = splitext(resource_url)[1]
                 filepath = join(resource_directory, name) + extension
                 resource_absolute_url = urlparse(page_url).scheme + '://' \
-                    + urlparse(page_url).netloc + resource_url
+                                        + urlparse(page_url).netloc + resource_url
                 if resource.name == ['img']:
                     download_image(resource_absolute_url, filepath)
                 if resource.name == ['script']:
@@ -71,21 +82,33 @@ def name_file(resource_url, page_url):
                       urlparse(splitext(resource_url)[0]).path) \
                + splitext(resource_url)[1]
     return re.sub(r'[^A-Za-z0-9]', '-', page_host) + \
-        re.sub(r'[^A-Za-z0-9]',
-               '-',
-               splitext(resource_url)[0]) + splitext(resource_url)[1]
+           re.sub(r'[^A-Za-z0-9]',
+                  '-',
+                  splitext(resource_url)[0]) + splitext(resource_url)[1]
 
 
 def download_image(image_url, filepath):
     """Downloads image  from url to specified folder"""
+    try:
+        image = requests.get(image_url)
+        image.raise_for_status()
+    except requests.exceptions.RequestException as error:
+        logger.error('Request went wrong')
+        raise error
     with open(filepath, 'wb') as file:
-        file.write(requests.get(image_url).content)
+        file.write(image.content)
 
 
 def download_script(script_url, filepath):
     """Downloads script  from url to specified folder"""
+    try:
+        script = requests.get(script_url)
+        script.raise_for_status()
+    except requests.exceptions.RequestException as error:
+        logger.error('Request went wrong')
+        raise error
     with open(filepath, 'w') as file:
-        file.write(requests.get(script_url).text)
+        file.write(script.text)
 
 
 def update_links(soup, directory, page_url):
