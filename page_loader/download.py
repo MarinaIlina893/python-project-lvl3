@@ -102,6 +102,7 @@ def download_image(image_url, filepath):
     except requests.exceptions.RequestException as error:
         logger.error('Request went wrong')
         raise error
+    os.mknod(filepath)
     with open(filepath, 'wb') as file:
         file.write(image.content)
 
@@ -114,6 +115,7 @@ def download_script(script_url, filepath):
     except requests.exceptions.RequestException as error:
         logger.error('Request went wrong')
         raise error
+    os.mknod(filepath)
     with open(filepath, 'w') as file:
         file.write(script.text)
 
