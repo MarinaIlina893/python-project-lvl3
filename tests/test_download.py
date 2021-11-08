@@ -4,7 +4,7 @@ import tempfile
 from pytest import fixture, raises
 from requests_mock import Mocker
 from tempfile import TemporaryDirectory
-from page_loader.page_loader import download
+from page_loader.download import download
 from bs4 import BeautifulSoup
 import requests
 
