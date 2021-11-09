@@ -15,7 +15,7 @@ class KnownError(Exception):
 
 def main():
     try:
-        print(download(args.url, args.directory))
+        print(download(args.url, args.output))
     except KnownError:
         sys.exit()
 
