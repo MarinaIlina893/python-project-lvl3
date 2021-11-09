@@ -5,7 +5,7 @@ import sys
 
 parser = argparse.ArgumentParser('page_loader', description='Save page ')
 parser.add_argument("url", help="Enter page url")
-parser.add_argument("directory", help='Will save page to this directory')
+parser.add_argument("-o", "--output", help='Will save page to this directory')
 args = parser.parse_args()
 
 
