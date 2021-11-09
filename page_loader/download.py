@@ -16,7 +16,6 @@ logger = logging.getLogger()
 logger.debug('Test logger')
 
 
-
 def download(url, directory):
     """Downloads page and its resources to specified local folder"""
     parsed_url = urlparse(url)
@@ -85,7 +84,7 @@ def build_resource_url(src, page_url):
         return src
     else:
         return urlparse(page_url).scheme + '://' \
-                                + urlparse(page_url).netloc + src
+            + urlparse(page_url).netloc + src
 
 
 def create_dir(resource_directory):
@@ -105,8 +104,7 @@ def name_file(resource_url, page_url):
         extension = '.html'
     if resource_host == '':
         return re.sub(r'[^A-Za-z0-9]', '-', page_host) + \
-               re.sub(r'[^A-Za-z0-9]',
-                      '-',
+               re.sub(r'[^A-Za-z0-9]', '-',
                       urlparse(splitext(resource_url)[0]).path) \
                + extension
     return re.sub(r'[^A-Za-z0-9]', '-', resource_host) + \
@@ -157,7 +155,7 @@ def update_links(soup, directory, page_url):
         href = urlparse(link['href'])
         if page_host.netloc == href.netloc or href.netloc == '':
             name = re.sub(r'[^A-Za-z0-9]', '-', urlparse(page_url).netloc) + \
-                   re.sub(r'[^A-Za-z0-9]', '-', splitext(link['href'])[0])
+                re.sub(r'[^A-Za-z0-9]', '-', splitext(link['href'])[0])
             extension = splitext(link['href'])[1]
             if extension == '':
                 extension = '.html'

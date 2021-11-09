@@ -1,5 +1,4 @@
 import os
-import tempfile
 
 from pytest import fixture, raises
 from requests_mock import Mocker
@@ -40,7 +39,7 @@ def test_download_file_content(mocker):
             r = download('http://ru.hexlet.io/courses', tmpdir)
             with open(r, 'r') as file:
                 with open('tests/fixtures/parsed_data.html') as parsed_page:
-                    soup = BeautifulSoup(parsed_page.read(),  'html.parser')
+                    soup = BeautifulSoup(parsed_page.read(), 'html.parser')
                     assert file.read() == soup.prettify()
 
 
