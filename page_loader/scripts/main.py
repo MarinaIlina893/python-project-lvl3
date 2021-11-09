@@ -17,7 +17,7 @@ def main():
     try:
         print(download(args.url, args.directory))
     except KnownError:
-        sys.exit(0)
+        sys.exit()
 
 
 if __name__ == '__main__':

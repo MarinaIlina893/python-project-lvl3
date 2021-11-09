@@ -6,6 +6,7 @@ import re
 from bs4 import BeautifulSoup
 import logging
 from progress.bar import Bar
+import sys
 
 
 LOG_FORMAT = '%(levelname)s %(asctime)s - %(message)s'
@@ -13,6 +14,8 @@ logging.basicConfig(level=logging.DEBUG,
                     format=LOG_FORMAT, filename='log.log')
 logger = logging.getLogger()
 logger.debug('Test logger')
+handler = logging.StreamHandler(sys.stdout)
+logger.addHandler(handler)
 
 
 def download(url, directory):
