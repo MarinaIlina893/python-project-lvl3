@@ -104,9 +104,9 @@ def name_file(resource_url, page_url):
         extension = '.html'
     if resource_host == '':
         return re.sub(r'[^A-Za-z0-9]', '-', page_host) + \
-               re.sub(r'[^A-Za-z0-9]', '-',
-                      urlparse(splitext(resource_url)[0]).path) \
-               + extension
+            re.sub(r'[^A-Za-z0-9]', '-',
+                   urlparse(splitext(resource_url)[0]).path) \
+            + extension
     return re.sub(r'[^A-Za-z0-9]', '-', resource_host) + \
         re.sub(r'[^A-Za-z0-9]', '-', urlparse(splitext(resource_url)[0]).path) \
         + extension
