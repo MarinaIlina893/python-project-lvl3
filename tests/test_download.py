@@ -16,6 +16,7 @@ def mocker():
         mocker.register_uri('GET', 'http://ru.hexlet.io/courses', text=page.read())
         mocker.register_uri('GET', 'http://ru.hexlet.io/assets/professions/nodejs.png')
         mocker.register_uri('GET', 'https://ru.hexlet.io/packs/js/runtime.js')
+        mocker.register_uri('GET', 'http://ru.hexlet.io/assets/application.css')
     return mocker
 
 
@@ -53,4 +54,4 @@ def test_download_resources(mocker):
     with mocker:
         with TemporaryDirectory() as tmpdir:
             download('http://ru.hexlet.io/courses', tmpdir)
-            assert len(os.listdir(os.path.join(tmpdir, 'ru-hexlet-io-courses_files'))) == 2
+            assert len(os.listdir(os.path.join(tmpdir, 'ru-hexlet-io-courses_files'))) == 4
