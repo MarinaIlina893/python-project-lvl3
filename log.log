@@ -1,0 +1,7 @@
+DEBUG:root:Test logger
+DEBUG 2021-11-07 19:52:23,536 - Test logger
+DEBUG 2021-11-07 20:05:39,142 - Test logger
+DEBUG 2021-11-09 21:02:26,760 - Test logger
+DEBUG 2021-11-09 21:02:59,241 - Test logger
+DEBUG 2021-11-09 21:03:29,403 - Test logger
+DEBUG 2021-11-09 21:06:14,877 - Test logger
