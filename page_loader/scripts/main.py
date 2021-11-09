@@ -13,11 +13,12 @@ class KnownError(Exception):
     pass
 
 
-try:
-    def main():
+def main():
+    try:
         print(download(args.url, args.directory))
-except KnownError:
-    sys.exit(1)
+    except KnownError:
+        sys.exit(1)
+
 
 if __name__ == '__main__':
     main()
