@@ -1,5 +1,5 @@
 ### О проекте
-Консольная утилита для скачивания страниц из сети. Сохраняет страницу в указанную существующую папку (по умолчанию в директорию запуска программы).
+Консольная утилита для скачивания страниц из сети. Сохраняет страницу и ее содержимое (изображения, скрипты и пр.) в указанную существующую папку.
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/MarinaIlina893/python-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/MarinaIlina893/python-project-lvl3/actions)
 ### Maintainability status:
