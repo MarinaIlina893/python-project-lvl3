@@ -56,11 +56,9 @@ document to specified local folder and updates links to them"""
             resource_url = build_resource_url(src, page_url)
             resource_src = join(split(resource_directory)[1], name)
             download_resource(resource_url, filepath, resource.name)
-            if resource.name == 'img':
+            if resource.name in ('img', 'script'):
                 resource['src'] = resource_src
-            if resource.name == 'script':
-                resource['src'] = resource_src
-            if resource.name == 'link':
+            else:
                 resource['href'] = resource_src
         bar.next()
     bar.finish()
