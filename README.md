@@ -1,6 +1,7 @@
 ### О проекте
 Консольная утилита для скачивания страниц из сети. Сохраняет страницу и ее ресурсы (изображения, скрипты, стили) в указанную существующую папку.
 Пример работы:
+
 [![asciicast](https://asciinema.org/a/Esj8SNFvpTT7f4OvzG2At1hRp.svg)](https://asciinema.org/a/Esj8SNFvpTT7f4OvzG2At1hRp)
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/MarinaIlina893/python-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/MarinaIlina893/python-project-lvl3/actions)
