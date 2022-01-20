@@ -103,15 +103,17 @@ def name_file(resource_url, page_url):
     extension = splitext(resource_url)[1]
     if extension == '':
         extension = '.html'
-    url_after_host = re.sub(r'[^A-Za-z0-9]', '-', urlparse(splitext(resource_url)[0]).path) \
+    url_after_host = re.sub(r'[^A-Za-z0-9]', '-',
+                            urlparse(splitext(resource_url)[0]).path) \
         + extension
     if resource_host == '':
         return re.sub(r'[^A-Za-z0-9]', '-', page_host) + url_after_host
     return re.sub(r'[^A-Za-z0-9]', '-', resource_host) + url_after_host
 
-def download_image(image_url, filepath): #переименовать в save_image
+
+def download_image(image_url, filepath):  # переименовать в save_image
     """Downloads image  from url to specified folder"""
-    try: #117-122 вынести как отдельную функцию save_resource
+    try:  # 117-122 вынести как отдельную функцию save_resource
         image = requests.get(image_url)
         image.raise_for_status()
     except requests.exceptions.RequestException as error:
