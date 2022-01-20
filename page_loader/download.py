@@ -113,38 +113,30 @@ def name_file(resource_url, page_url):
 
 def download_image(image_url, filepath):  # переименовать в save_image
     """Downloads image  from url to specified folder"""
-    try:  # 117-122 вынести как отдельную функцию save_resource
-        image = requests.get(image_url)
-        image.raise_for_status()
-    except requests.exceptions.RequestException as error:
-        logger.error('Request went wrong')
-        raise error
     with open(filepath, 'wb') as file:
-        file.write(image.content)
+        file.write(get_resource_payload(image_url).content)
 
 
 def download_script(script_url, filepath):
     """Downloads script  from url to specified folder"""
-    try:
-        script = requests.get(script_url)
-        script.raise_for_status()
-    except requests.exceptions.RequestException as error:
-        logger.error('Request went wrong')
-        raise error
     with open(filepath, 'w') as file:
-        file.write(script.text)
+        file.write(get_resource_payload(script_url).text)
 
 
 def download_link(link_url, filepath):
     """Downloads script  from url to specified folder"""
+    with open(filepath, 'wb') as file:
+        file.write(get_resource_payload(link_url).content)
+
+
+def get_resource_payload(resource_url):
     try:
-        link = requests.get(link_url)
-        link.raise_for_status()
+        payload = requests.get(resource_url)
+        payload.raise_for_status()
+        return payload
     except requests.exceptions.RequestException as error:
         logger.error('Request went wrong')
         raise error
-    with open(filepath, 'wb') as file:
-        file.write(link.content)
 
 
 def update_links(soup, directory, page_url):
