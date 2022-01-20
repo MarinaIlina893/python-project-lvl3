@@ -55,14 +55,12 @@ document to specified local folder and updates links to them"""
             filepath = join(resource_directory, name)
             resource_url = build_resource_url(src, page_url)
             resource_src = join(split(resource_directory)[1], name)
+            download_resource(resource_url, filepath, resource.name)
             if resource.name == 'img':
-                download_image(resource_url, filepath)
                 resource['src'] = resource_src
             if resource.name == 'script':
-                download_script(resource_url, filepath)
                 resource['src'] = resource_src
             if resource.name == 'link':
-                download_link(resource_url, filepath)
                 resource['href'] = resource_src
         bar.next()
     bar.finish()
@@ -111,22 +109,14 @@ def name_file(resource_url, page_url):
     return re.sub(r'[^A-Za-z0-9]', '-', resource_host) + url_after_host
 
 
-def download_image(image_url, filepath):  # переименовать в save_image
-    """Downloads image  from url to specified folder"""
-    with open(filepath, 'wb') as file:
-        file.write(get_resource_payload(image_url).content)
-
-
-def download_script(script_url, filepath):
-    """Downloads script  from url to specified folder"""
-    with open(filepath, 'w') as file:
-        file.write(get_resource_payload(script_url).text)
-
-
-def download_link(link_url, filepath):
-    """Downloads script  from url to specified folder"""
-    with open(filepath, 'wb') as file:
-        file.write(get_resource_payload(link_url).content)
+def download_resource(url, filepath, resource_name):
+    payload = get_resource_payload(url)
+    if resource_name == 'img' or 'link':
+        with open(filepath, 'wb') as file:
+            file.write(payload.content)
+    else:
+        with open(filepath, 'w') as file:
+            file.write(payload.text)
 
 
 def get_resource_payload(resource_url):
