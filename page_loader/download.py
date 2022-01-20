@@ -54,15 +54,16 @@ document to specified local folder and updates links to them"""
             name = name_file(src, page_url)
             filepath = join(resource_directory, name)
             resource_url = build_resource_url(src, page_url)
+            resource_src = join(split(resource_directory)[1], name)
             if resource.name == 'img':
                 download_image(resource_url, filepath)
-                resource['src'] = join(split(resource_directory)[1], name)
+                resource['src'] = resource_src
             if resource.name == 'script':
                 download_script(resource_url, filepath)
-                resource['src'] = join(split(resource_directory)[1], name)
+                resource['src'] = resource_src
             if resource.name == 'link':
                 download_link(resource_url, filepath)
-                resource['href'] = join(split(resource_directory)[1], name)
+                resource['href'] = resource_src
         bar.next()
     bar.finish()
 
@@ -102,19 +103,15 @@ def name_file(resource_url, page_url):
     extension = splitext(resource_url)[1]
     if extension == '':
         extension = '.html'
-    if resource_host == '':
-        return re.sub(r'[^A-Za-z0-9]', '-', page_host) + \
-            re.sub(r'[^A-Za-z0-9]', '-',
-                   urlparse(splitext(resource_url)[0]).path) \
-            + extension
-    return re.sub(r'[^A-Za-z0-9]', '-', resource_host) + \
-        re.sub(r'[^A-Za-z0-9]', '-', urlparse(splitext(resource_url)[0]).path) \
+    url_after_host = re.sub(r'[^A-Za-z0-9]', '-', urlparse(splitext(resource_url)[0]).path) \
         + extension
+    if resource_host == '':
+        return re.sub(r'[^A-Za-z0-9]', '-', page_host) + url_after_host
+    return re.sub(r'[^A-Za-z0-9]', '-', resource_host) + url_after_host
 
-
-def download_image(image_url, filepath):
+def download_image(image_url, filepath): #переименовать в save_image
     """Downloads image  from url to specified folder"""
-    try:
+    try: #117-122 вынести как отдельную функцию save_resource
         image = requests.get(image_url)
         image.raise_for_status()
     except requests.exceptions.RequestException as error:
