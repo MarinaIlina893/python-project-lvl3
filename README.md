@@ -1,6 +1,8 @@
 ### О проекте
 Консольная утилита для скачивания страниц из сети. Сохраняет страницу и ее ресурсы (изображения, скрипты, стили) в указанную существующую папку.
-Пример работы:
+
+### Project Description
+CLI for downloading web pages. Saves web page and its resources (images, scripts, styles) to the selected local directory.
 
 [![asciicast](https://asciinema.org/a/Esj8SNFvpTT7f4OvzG2At1hRp.svg)](https://asciinema.org/a/Esj8SNFvpTT7f4OvzG2At1hRp)
 ### Hexlet tests and linter status:
